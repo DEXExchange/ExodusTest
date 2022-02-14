@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 
 /*
-BBBBBBBBBBBBBBBBB               AAA                                              
-B::::::::::::::::B             A:::A                            A:::A                 CCCCCCCCCCCCC
+BBBBBBBBBBBBBBBBB               AAA                              AAA                    CCCCCCCCCCC
+B::::::::::::::::B             A:::A                            A:::A               CCCC::::::::::C
 B::::::BBBBBB:::::B           A:::::A                          A:::::A             CCC::::::::::::C
 BB:::::B     B:::::B         A:::::::A                        A:::::::A          CC:::::::::::::::C
  B::::B     B:::::B         A:::::::::A                      A:::::::::A        C:::::CCCCCCCC::::C
@@ -1152,12 +1152,12 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     ) internal virtual {}
 }
 
-// File: contracts/SACC.sol
+// File: contracts/ExodusTest.sol
 
 pragma solidity >=0.7.0 <0.9.0;
 
 
-contract CosmicEnergyGas is ERC721, Ownable {
+contract ExodusTest is ERC721, Ownable {
   using Strings for uint256;
   using Counters for Counters.Counter;
 
@@ -1168,15 +1168,15 @@ contract CosmicEnergyGas is ERC721, Ownable {
   string public hiddenMetadataUri;
   
   uint256 public cost = 0.042 ether;
-  uint256 public maxSupply = 30000;
-  uint256 public maxMintAmountPerTx = 42;
+  uint256 public maxSupply = 42;
+  uint256 public maxMintAmountPerTx = 1;
 
   bool public paused = true;
   bool public revealed = false;
 
   address public baacgAddress;
 
-  constructor() ERC721("BAAC Cosmic Energy Gas", "BAACCEG") {
+  constructor() ERC721("BAAC Exodus NFT", "BAACE") {
     setHiddenMetadataUri("ipfs://__CID__/hidden.json");
     setbaacgAddress(EnterBAACGenesisContractAddresshHere);
   }
@@ -1191,11 +1191,11 @@ contract CosmicEnergyGas is ERC721, Ownable {
     return supply.current();
   }
 
-  function mint(uint256 _mintAmount) public mintCompliance(_mintAmount) {
+  function mint(uint256 _mintAmount) public payable mintCompliance(_mintAmount) {
     require(!paused, "The contract is paused!");
     IERC721 token = IERC721(baacgAddress);
     uint256 ownedAmount = token.balanceOf(msg.sender);
-    require(ownedAmount >= 1, "You don't own BAAC Genesis NFTs");
+    require(ownedAmount >= 1, "You do not own any BAAC Genesis NFTs");
     require(msg.value >= cost * _mintAmount, "Insufficient funds!");
 
     _mintLoop(msg.sender, _mintAmount);
